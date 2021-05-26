@@ -12,7 +12,6 @@ import {
 } from "./healthpay.types";
 import HttpRequests from "./services/http";
 import { getInstance, Mutations } from "./services/mutations";
-import { EventEmitter } from "events";
 
 const listeners = {};
 
@@ -22,7 +21,7 @@ const listeners = {};
  * @classdesc The Client class is used to control platform functions. Can't be instantiated directly (singleton),
  * so use the {@link https://docs.Healthpay.tech/healthpay-react-sdk#getInstance} method to get the class instance.
  */
-export class Client extends EventEmitter implements HealthpayClass {
+export class Client implements HealthpayClass {
   static _healthpayInstance: HealthpayClass | null = null;
   configs: HealthpayConfigs = healthpayConfig.HEALTHPAY_CONFIGS;
   mutations: Mutations;
@@ -48,7 +47,6 @@ export class Client extends EventEmitter implements HealthpayClass {
    * @ignore
    */
   constructor(customConfigs: CustomConfigs) {
-    super();
     this.customConfigs = customConfigs;
     this.httpRequests = new HttpRequests();
     this.mutations = getInstance(customConfigs, this._emit);
@@ -92,14 +90,13 @@ export class Client extends EventEmitter implements HealthpayClass {
    * @private
    */
   _emit(event: string, ...args) {
-    console.log("event", event);
     const handlers = listeners[event];
     if (handlers) {
       for (const handler of handlers) {
         this._logWarning(
           `Client: emit event ${event} with params ${JSON.stringify(args)}`
         );
-        handler(...args)();
+        handler(...args);
       }
     } else {
       this._logWarning(`Client: emit: no handlers for event: ${event}`);
@@ -119,7 +116,6 @@ export class Client extends EventEmitter implements HealthpayClass {
   }
 
   on(event, handler) {
-    console.log("listento", event, listeners);
     if (!handler || !(handler instanceof Function)) {
       this._logWarning("Client: on: handler is not a Function");
       return;

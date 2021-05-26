@@ -11,7 +11,7 @@ import {
 interface HttpRequestsClass {
   request(body: RequestBody, headers?: RequestHeaders): Promise<Response>;
   gqlRequest(
-    gqlRequestData: GqlRequest,
+    gqlRequestData: GqlRequest
   ): Promise<Response | BackendErrorResponse>;
 }
 
@@ -52,11 +52,8 @@ export default class HttpRequests implements HttpRequestsClass {
     };
     try {
       const resp = await this.request(body, gqlRequestData.headers);
-      // console.log("_GQLREQSUCC", JSON.stringify(resp));
       return resp;
     } catch (e) {
-      // console.log("_GQLREQERR", JSON.stringify(e));
-
       if (e.length > 0 && e[0].message) {
         throw new Error(e[0].message);
       } else {
