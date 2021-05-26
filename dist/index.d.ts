@@ -1,4 +1,5 @@
 import { CustomConfigs, HealthpayClass } from "./healthpay.types";
+import * as Types from "./healthpay.types";
 declare const _default: {
     ClientEvents: {
         CONNECTION_ERROR: string;
@@ -10,5 +11,6 @@ declare const _default: {
         CLIENT_USER_BALANCE_OK: string;
     };
     getInstance: (clientConfig: CustomConfigs) => HealthpayClass;
+    Types: typeof Types;
 };
 export default _default;
