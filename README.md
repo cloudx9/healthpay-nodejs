@@ -1,3 +1,3 @@
 ### HEALTHPAY NODEJS SDK
 
-`$ yarn add `
+`$ yarn add healthpay-nodejs `
