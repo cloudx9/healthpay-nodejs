@@ -1,6 +1,6 @@
 {
   "name": "healthpay-nodejs",
-  "version": "1.0.0",
+  "version": "1.0.8",
   "description": "A unicorn that says hello world",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -19,6 +19,7 @@
   "author": "cloudx9",
   "license": "ISC",
   "dependencies": {
+    "events": "^3.3.0",
     "node-fetch": "^2.6.1"
   }
 }

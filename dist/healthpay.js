@@ -1,4 +1,19 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -42,6 +57,7 @@ var healthpay_config_1 = require("./healthpay.config");
 var healthpay_events_1 = require("./healthpay.events");
 var http_1 = require("./services/http");
 var mutations_1 = require("./services/mutations");
+var events_1 = require("events");
 var listeners = {};
 /**
  * @memberOf Healthpay
@@ -49,22 +65,25 @@ var listeners = {};
  * @classdesc The Client class is used to control platform functions. Can't be instantiated directly (singleton),
  * so use the {@link https://docs.Healthpay.tech/healthpay-react-sdk#getInstance} method to get the class instance.
  */
-var Client = /** @class */ (function () {
+var Client = /** @class */ (function (_super) {
+    __extends(Client, _super);
     /**
      * @ignore
      */
     function Client(customConfigs) {
-        this.configs = healthpay_config_1.default.HEALTHPAY_CONFIGS;
-        this.customConfigs = {
+        var _this = _super.call(this) || this;
+        _this.configs = healthpay_config_1.default.HEALTHPAY_CONFIGS;
+        _this.customConfigs = {
             apiKey: "",
             disableWarning: false,
             apiHeader: "",
         };
-        this.authToken = "";
-        this._clientStatus = "PENDING";
-        this.customConfigs = customConfigs;
-        this.httpRequests = new http_1.default();
-        this.mutations = mutations_1.getInstance(customConfigs, this._emit);
+        _this.authToken = "";
+        _this._clientStatus = "PENDING";
+        _this.customConfigs = customConfigs;
+        _this.httpRequests = new http_1.default();
+        _this.mutations = mutations_1.getInstance(customConfigs, _this._emit);
+        return _this;
     }
     /*
      * @ignore
@@ -145,12 +164,13 @@ var Client = /** @class */ (function () {
         for (var _i = 1; _i < arguments.length; _i++) {
             args[_i - 1] = arguments[_i];
         }
+        console.log("event", event);
         var handlers = listeners[event];
         if (handlers) {
             for (var _a = 0, handlers_1 = handlers; _a < handlers_1.length; _a++) {
                 var handler = handlers_1[_a];
                 this._logWarning("Client: emit event " + event + " with params " + JSON.stringify(args));
-                handler.apply(void 0, args);
+                handler.apply(void 0, args)();
             }
         }
         else {
@@ -167,9 +187,10 @@ var Client = /** @class */ (function () {
      * @private
      */
     Client.prototype._logWarning = function (msg) {
-        !this.customConfigs.disableWarning && console.warn(msg);
+        !this.customConfigs.disableWarning && console.log(msg);
     };
     Client.prototype.on = function (event, handler) {
+        console.log("listento", event, listeners);
         if (!handler || !(handler instanceof Function)) {
             this._logWarning("Client: on: handler is not a Function");
             return;
@@ -200,6 +221,6 @@ var Client = /** @class */ (function () {
     };
     Client._healthpayInstance = null;
     return Client;
-}());
+}(events_1.EventEmitter));
 exports.Client = Client;
 //# sourceMappingURL=healthpay.js.map

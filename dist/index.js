@@ -7,6 +7,7 @@ var healthpay_events_1 = require("./healthpay.events");
  * @param {clientConfig} apiKey - API Key taken from healthpay dashboard {@link https://dashboard.healthpay.tech}
  */
 var getInstance = function (clientConfig) {
+    console.log("singleton");
     return healthpay_1.Client.getInstance(clientConfig);
 };
 var ClientEvents = healthpay_events_1.CLIENT_EVENTS;
