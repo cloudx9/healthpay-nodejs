@@ -45,11 +45,9 @@ class HttpRequests {
             };
             try {
                 const resp = yield this.request(body, gqlRequestData.headers);
-                // console.log("_GQLREQSUCC", JSON.stringify(resp));
                 return resp;
             }
             catch (e) {
-                // console.log("_GQLREQERR", JSON.stringify(e));
                 if (e.length > 0 && e[0].message) {
                     throw new Error(e[0].message);
                 }

@@ -8,7 +8,6 @@ const Types = require("./healthpay.types");
  * @param {clientConfig} apiKey - API Key taken from healthpay dashboard {@link https://dashboard.healthpay.tech}
  */
 const getInstance = (clientConfig) => {
-    console.log("singleton");
     return healthpay_1.Client.getInstance(clientConfig);
 };
 const ClientEvents = healthpay_events_1.CLIENT_EVENTS;

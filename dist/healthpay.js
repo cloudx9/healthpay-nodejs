@@ -86,7 +86,6 @@ class Client {
      * @private
      */
     _emit(event, ...args) {
-        console.log("event", event);
         const handlers = listeners[event];
         if (handlers) {
             for (const handler of handlers) {
@@ -111,7 +110,6 @@ class Client {
         !this.customConfigs.disableWarning && console.log(msg);
     }
     on(event, handler) {
-        console.log("listento", event, listeners);
         if (!handler || !(handler instanceof Function)) {
             this._logWarning("Client: on: handler is not a Function");
             return;
