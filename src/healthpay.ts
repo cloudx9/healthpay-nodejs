@@ -12,6 +12,7 @@ import {
 } from "./healthpay.types";
 import HttpRequests from "./services/http";
 import { getInstance, Mutations } from "./services/mutations";
+import { EventEmitter } from "events";
 
 const listeners = {};
 
@@ -21,7 +22,7 @@ const listeners = {};
  * @classdesc The Client class is used to control platform functions. Can't be instantiated directly (singleton),
  * so use the {@link https://docs.Healthpay.tech/healthpay-react-sdk#getInstance} method to get the class instance.
  */
-export class Client implements HealthpayClass {
+export class Client extends EventEmitter implements HealthpayClass {
   static _healthpayInstance: HealthpayClass | null = null;
   configs: HealthpayConfigs = healthpayConfig.HEALTHPAY_CONFIGS;
   mutations: Mutations;
@@ -47,6 +48,7 @@ export class Client implements HealthpayClass {
    * @ignore
    */
   constructor(customConfigs: CustomConfigs) {
+    super();
     this.customConfigs = customConfigs;
     this.httpRequests = new HttpRequests();
     this.mutations = getInstance(customConfigs, this._emit);
@@ -74,14 +76,14 @@ export class Client implements HealthpayClass {
   }
   async userBalance(
     token: string,
-    getLogs?: boolean,
+    getLogs?: boolean
   ): Promise<UserBalanceLogs | null> {
     return await this.mutations._walletBalance(token, getLogs);
   }
 
   async rechargeWallet(
     token: string,
-    amount: number,
+    amount: number
   ): Promise<UserChargeWebview | null> {
     return await this.mutations._chargeWallet(token, amount);
   }
@@ -90,13 +92,14 @@ export class Client implements HealthpayClass {
    * @private
    */
   _emit(event: string, ...args) {
+    console.log("event", event);
     const handlers = listeners[event];
     if (handlers) {
       for (const handler of handlers) {
         this._logWarning(
-          `Client: emit event ${event} with params ${JSON.stringify(args)}`,
+          `Client: emit event ${event} with params ${JSON.stringify(args)}`
         );
-        handler(...args);
+        handler(...args)();
       }
     } else {
       this._logWarning(`Client: emit: no handlers for event: ${event}`);
@@ -112,17 +115,18 @@ export class Client implements HealthpayClass {
    * @private
    */
   _logWarning(msg) {
-    !this.customConfigs.disableWarning && console.warn(msg);
+    !this.customConfigs.disableWarning && console.log(msg);
   }
 
   on(event, handler) {
+    console.log("listento", event, listeners);
     if (!handler || !(handler instanceof Function)) {
       this._logWarning("Client: on: handler is not a Function");
       return;
     }
     if (Object.values(CLIENT_EVENTS).indexOf(event) === -1) {
       this._logWarning(
-        `Client: on: ClientEvents does not contain ${event} event`,
+        `Client: on: ClientEvents does not contain ${event} event`
       );
       return;
     }
@@ -138,7 +142,7 @@ export class Client implements HealthpayClass {
     }
     if (Object.values(CLIENT_EVENTS).indexOf(event) === -1) {
       this._logWarning(
-        `Client: off: ClientEvents does not contain ${event} event`,
+        `Client: off: ClientEvents does not contain ${event} event`
       );
       return;
     }

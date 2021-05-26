@@ -2,13 +2,14 @@ import { HealthpayConfigs } from "./healthpay.config";
 import { ConfirmationResult, CustomConfigs, HealthpayClass, OTPResults, UserBalanceLogs, ClientStatus, UserChargeWebview } from "./healthpay.types";
 import HttpRequests from "./services/http";
 import { Mutations } from "./services/mutations";
+import { EventEmitter } from "events";
 /**
  * @memberOf Healthpay
  * @class Healthpay
  * @classdesc The Client class is used to control platform functions. Can't be instantiated directly (singleton),
  * so use the {@link https://docs.Healthpay.tech/healthpay-react-sdk#getInstance} method to get the class instance.
  */
-export declare class Client implements HealthpayClass {
+export declare class Client extends EventEmitter implements HealthpayClass {
     static _healthpayInstance: HealthpayClass | null;
     configs: HealthpayConfigs;
     mutations: Mutations;

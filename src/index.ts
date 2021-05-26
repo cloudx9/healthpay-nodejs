@@ -7,6 +7,7 @@ import { CustomConfigs, HealthpayClass } from "./healthpay.types";
  * @param {clientConfig} apiKey - API Key taken from healthpay dashboard {@link https://dashboard.healthpay.tech}
  */
 const getInstance = (clientConfig: CustomConfigs): HealthpayClass => {
+  console.log("singleton");
   return Client.getInstance(clientConfig);
 };
 
