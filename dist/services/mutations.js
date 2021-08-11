@@ -94,16 +94,19 @@ class Mutations {
             }
         });
     }
-    _userLogin(phonenumber) {
+    _userLogin(mobilenumber, firstName, lastName, email) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 // validate phone number
-                this._validatePhonenumber(phonenumber);
+                this._validatePhonenumber(mobilenumber);
                 const response = yield this.httpRequests.gqlRequest({
                     gql: gql_1.default.USER_AUTH.gql,
                     operation: gql_1.default.USER_AUTH.opName,
                     variables: {
-                        mobilenumber: phonenumber,
+                        mobilenumber,
+                        firstName,
+                        lastName,
+                        email,
                     },
                     headers: {
                         "api-header": this.customConfigs.apiHeader,
@@ -111,7 +114,7 @@ class Mutations {
                     },
                 });
                 if (response && response.data) {
-                    return { phonenumber, status: true };
+                    return { phonenumber: mobilenumber, status: true };
                 }
                 else {
                     this._dispatch(healthpay_events_1.CLIENT_EVENTS.CLIENT_USER_AUTH_ERR, response.data);
@@ -123,7 +126,7 @@ class Mutations {
             }
         });
     }
-    _otpLogin(otp, phonenumber) {
+    _otpLogin(otp, phonenumber, isProvider) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 // validate phone number
@@ -134,6 +137,7 @@ class Mutations {
                     variables: {
                         mobilenumber: phonenumber,
                         otp: otp,
+                        isProvider,
                     },
                     headers: {
                         "api-header": this.customConfigs.apiHeader,

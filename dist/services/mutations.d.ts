@@ -22,8 +22,8 @@ export declare class Mutations {
     _handleBackendErrorResponse(e?: BackendErrorResponse): void;
     _validatePhonenumber(phonenumber: string): void;
     _merchantLogin(): Promise<string | null>;
-    _userLogin(phonenumber: string): Promise<ConfirmationResult | void>;
-    _otpLogin(otp: string, phonenumber: string): Promise<OTPResults>;
+    _userLogin(mobilenumber: string, firstName: string, lastName: string, email?: string): Promise<ConfirmationResult | void>;
+    _otpLogin(otp: string, phonenumber: string, isProvider: boolean): Promise<OTPResults>;
     _walletBalance(token: string, getLogs?: boolean): Promise<UserBalanceLogs | null>;
     _chargeWallet(token: string, amount: number): Promise<UserChargeWebview | null>;
 }

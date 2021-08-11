@@ -1,6 +1,6 @@
 {
   "name": "healthpay-nodejs",
-  "version": "1.1.0",
+  "version": "1.1.4",
   "description": "A unicorn that says hello world",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

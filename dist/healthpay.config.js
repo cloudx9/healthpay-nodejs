@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const HEALTHPAY_CONFIGS = {
-    REMOTE_END_POINT: "http://prisma.back.healthpay.tech/api",
+    REMOTE_END_POINT: "https://prisma.back.healthpay.tech/api",
 };
 exports.default = {
     HEALTHPAY_CONFIGS,

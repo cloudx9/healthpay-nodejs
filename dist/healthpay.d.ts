@@ -23,8 +23,8 @@ export declare class Client implements HealthpayClass {
     constructor(customConfigs: CustomConfigs);
     clientStatus(): ClientStatus;
     initClient(): Promise<void>;
-    phoneLogin(phonenumber: string): Promise<ConfirmationResult | void>;
-    otpLogin(otp: string, phonenumber: string): Promise<OTPResults>;
+    phoneLogin(phonenumber: string, firstName: string, lastName: string, email?: string): Promise<ConfirmationResult | void>;
+    otpLogin(otp: string, phonenumber: string, isProvider: boolean): Promise<OTPResults>;
     userBalance(token: string, getLogs?: boolean): Promise<UserBalanceLogs | null>;
     rechargeWallet(token: string, amount: number): Promise<UserChargeWebview | null>;
     /**

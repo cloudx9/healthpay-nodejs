@@ -53,23 +53,29 @@ class Client {
     }
     initClient() {
         return __awaiter(this, void 0, void 0, function* () {
-            const merchantLogin = yield this.mutations._merchantLogin();
-            if (merchantLogin) {
-                this._clientStatus = "CONNECTED";
+            if (this._clientStatus === "DISCONNECTED" ||
+                this._clientStatus === "PENDING") {
+                const merchantLogin = yield this.mutations._merchantLogin();
+                if (merchantLogin) {
+                    this._clientStatus = "CONNECTED";
+                }
+                else {
+                    this._clientStatus = "DISCONNECTED";
+                }
             }
             else {
-                this._clientStatus = "DISCONNECTED";
+                this._logWarning("client: client is already connected");
             }
         });
     }
-    phoneLogin(phonenumber) {
+    phoneLogin(phonenumber, firstName, lastName, email) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.mutations._userLogin(phonenumber);
+            return yield this.mutations._userLogin(phonenumber, firstName, lastName, email);
         });
     }
-    otpLogin(otp, phonenumber) {
+    otpLogin(otp, phonenumber, isProvider) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.mutations._otpLogin(otp, phonenumber);
+            return yield this.mutations._otpLogin(otp, phonenumber, isProvider);
         });
     }
     userBalance(token, getLogs) {

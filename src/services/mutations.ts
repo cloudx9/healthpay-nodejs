@@ -75,7 +75,7 @@ export class Mutations {
     ) {
       this._dispatch(
         CLIENT_EVENTS.CLIENT_USER_AUTH_ERR,
-        "Invalid phone number",
+        "Invalid phone number"
       );
       throw new Error("Invalid phone number");
     }
@@ -103,16 +103,24 @@ export class Mutations {
     }
   }
 
-  async _userLogin(phonenumber: string): Promise<ConfirmationResult | void> {
+  async _userLogin(
+    mobilenumber: string,
+    firstName: string,
+    lastName: string,
+    email?: string
+  ): Promise<ConfirmationResult | void> {
     try {
       // validate phone number
-      this._validatePhonenumber(phonenumber);
+      this._validatePhonenumber(mobilenumber);
 
       const response = await this.httpRequests.gqlRequest({
         gql: mutations.USER_AUTH.gql,
         operation: mutations.USER_AUTH.opName,
         variables: {
-          mobilenumber: phonenumber,
+          mobilenumber,
+          firstName,
+          lastName,
+          email,
         },
         headers: {
           "api-header": this.customConfigs.apiHeader,
@@ -120,7 +128,7 @@ export class Mutations {
         },
       });
       if (response && response.data) {
-        return { phonenumber, status: true };
+        return { phonenumber: mobilenumber, status: true };
       } else {
         this._dispatch(CLIENT_EVENTS.CLIENT_USER_AUTH_ERR, response.data);
         this._logWarning("Phone login failed");
@@ -130,7 +138,11 @@ export class Mutations {
     }
   }
 
-  async _otpLogin(otp: string, phonenumber: string): Promise<OTPResults> {
+  async _otpLogin(
+    otp: string,
+    phonenumber: string,
+    isProvider: boolean
+  ): Promise<OTPResults> {
     try {
       // validate phone number
       this._validatePhonenumber(phonenumber);
@@ -141,6 +153,7 @@ export class Mutations {
         variables: {
           mobilenumber: phonenumber,
           otp: otp,
+          isProvider,
         },
         headers: {
           "api-header": this.customConfigs.apiHeader,
@@ -151,7 +164,7 @@ export class Mutations {
         this._dispatch(CLIENT_EVENTS.CLIENT_USER_AUTH_OK, response.data);
         this._dispatch(
           CLIENT_EVENTS.CLIENT_USER_TOKEN,
-          response.data.authUser.userToken,
+          response.data.authUser.userToken
         );
         return {
           success: true,
@@ -172,7 +185,7 @@ export class Mutations {
 
   async _walletBalance(
     token: string,
-    getLogs?: boolean,
+    getLogs?: boolean
   ): Promise<UserBalanceLogs | null> {
     try {
       const gqlQuery = getLogs
@@ -192,7 +205,7 @@ export class Mutations {
       if (response && response.data) {
         this._dispatch(
           CLIENT_EVENTS.CLIENT_USER_BALANCE_OK,
-          response.data.userWallet,
+          response.data.userWallet
         );
         return {
           total: response.data.userWallet.total,
@@ -214,7 +227,7 @@ export class Mutations {
 
   async _chargeWallet(
     token: string,
-    amount: number,
+    amount: number
   ): Promise<UserChargeWebview | null> {
     try {
       if (parseFloat(`${amount}`) < 4) {

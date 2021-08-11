@@ -21,8 +21,8 @@ mutation AuthMerchant($apiKey: String!) {
 };
 const USER_AUTH = {
     gql: `
-mutation loginUser($mobilenumber: String!) {
-  loginUser(mobile: $mobilenumber) {
+mutation loginUser($mobilenumber: String!, $firstName: String!, $lastName: String!, $email: String) {
+  loginUser(mobile: $mobilenumber, firstName:$firstName, lastName:$lastName, email: $email) {
     mobile
   }
 }
@@ -31,8 +31,8 @@ mutation loginUser($mobilenumber: String!) {
 };
 const OTP_AUTH = {
     gql: `
-mutation authUser($otp: String!, $mobilenumber: String!) {
-  authUser(otp: $otp , mobile: $mobilenumber) {
+mutation authUser($otp: String!, $mobilenumber: String!, $isProvider: Boolean!) {
+  authUser(otp: $otp , mobile: $mobilenumber, isProvider: $isProvider) {
     userToken
   }
 }

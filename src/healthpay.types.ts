@@ -81,12 +81,21 @@ export interface HealthpayClass {
    * Signs in the user using their phone number. (otp) will be sent to the user's phone number,
    * this (otp) should be used in a later step to complete the authentication
    * @param {string} phonenumber user's phone number in international format {@link https://en.wikipedia.org/wiki/E.164}
+   * @param {string} firstName user's first name in English/Arabic letters
+   * @param {string} lastName user's last name in English/Arabic letters
+   * @param {string?} email?  optional user's email in English/Arabic letters
+   * @param {string} phonenumber user's phone number in international format {@link https://en.wikipedia.org/wiki/E.164}
    * @returns {Promise<ConfirmationResult>} ConfirmationResult
    * @emits CLIENT_USER_AUTH_OK
    * @emits CLIENT_USER_AUTH_ERR
    * @memberOf Healthpay.Client
    */
-  phoneLogin(phonenumber: string): Promise<ConfirmationResult | void>;
+  phoneLogin(
+    phonenumber: string,
+    firstName: string,
+    lastName: string,
+    email?: string
+  ): Promise<ConfirmationResult | void>;
 
   /**
    * Finishes the sign in flow. Validates a code that was sent to the users mobile number
@@ -97,7 +106,11 @@ export interface HealthpayClass {
    * @emits CLIENT_USER_AUTH_ERR
    * @memberOf Healthpay.Client
    */
-  otpLogin(otp: string, phonenumber: string): Promise<OTPResults>;
+  otpLogin(
+    otp: string,
+    phonenumber: string,
+    isProvider: boolean
+  ): Promise<OTPResults>;
 
   /**
    * Get user's wallet total balance and/or user balance logs
@@ -119,7 +132,7 @@ export interface HealthpayClass {
    */
   rechargeWallet(
     token: string,
-    amount: number,
+    amount: number
   ): Promise<UserChargeWebview | null>;
 
   /**

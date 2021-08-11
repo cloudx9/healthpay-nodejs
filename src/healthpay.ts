@@ -57,20 +57,41 @@ export class Client implements HealthpayClass {
   }
 
   async initClient(): Promise<void> {
-    const merchantLogin = await this.mutations._merchantLogin();
-    if (merchantLogin) {
-      this._clientStatus = "CONNECTED";
+    if (
+      this._clientStatus === "DISCONNECTED" ||
+      this._clientStatus === "PENDING"
+    ) {
+      const merchantLogin = await this.mutations._merchantLogin();
+      if (merchantLogin) {
+        this._clientStatus = "CONNECTED";
+      } else {
+        this._clientStatus = "DISCONNECTED";
+      }
     } else {
-      this._clientStatus = "DISCONNECTED";
+      this._logWarning("client: client is already connected");
     }
   }
 
-  async phoneLogin(phonenumber: string): Promise<ConfirmationResult | void> {
-    return await this.mutations._userLogin(phonenumber);
+  async phoneLogin(
+    phonenumber: string,
+    firstName: string,
+    lastName: string,
+    email?: string
+  ): Promise<ConfirmationResult | void> {
+    return await this.mutations._userLogin(
+      phonenumber,
+      firstName,
+      lastName,
+      email
+    );
   }
 
-  async otpLogin(otp: string, phonenumber: string): Promise<OTPResults> {
-    return await this.mutations._otpLogin(otp, phonenumber);
+  async otpLogin(
+    otp: string,
+    phonenumber: string,
+    isProvider: boolean
+  ): Promise<OTPResults> {
+    return await this.mutations._otpLogin(otp, phonenumber, isProvider);
   }
   async userBalance(
     token: string,
