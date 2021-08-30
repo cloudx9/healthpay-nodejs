@@ -39,10 +39,11 @@ mutation authUser($otp: String!, $mobilenumber: String!, $isProvider: Boolean!) 
 `,
     opName: "authUser",
 };
+// transfare
 const USER_TRANSFER = {
     gql: `
-mutation transfer($token: String!, $amount: Float!) {
-  transfer(
+mutation deductFromUser($token: String!, $amount: Float!) {
+  deductFromUser(
     userToken: $token
     amount: $amount
   ) {
@@ -50,7 +51,7 @@ mutation transfer($token: String!, $amount: Float!) {
   }
 }
 `,
-    opName: "transfer",
+    opName: "deductFromUser",
 };
 const USER_WALLET = {
     gql: `
@@ -77,10 +78,11 @@ query userWallet($token: String!) {
 `,
     opName: "userWallet",
 };
+// userChargeWallet
 const USER_CHARGE = {
     gql: `
-mutation userChargeWallet($token: String!, $amount: Float!) {
- userChargeWallet(
+mutation topupWalletUser($token: String!, $amount: Float!) {
+ topupWalletUser(
     userToken: $token
     amount: $amount
   ) {
@@ -89,7 +91,7 @@ mutation userChargeWallet($token: String!, $amount: Float!) {
   }
 }
 `,
-    opName: "userChargeWallet",
+    opName: "topupWalletUser",
 };
 exports.default = {
     MERCHANT_AUTH,

@@ -3,6 +3,7 @@ import healthpayConfig from "../healthpay.config";
 import {
   BackendBodyResponse,
   BackendErrorResponse,
+  CustomConfigs,
   GqlRequest,
   RequestBody,
   RequestHeaders,
@@ -16,7 +17,14 @@ interface HttpRequestsClass {
 }
 
 export default class HttpRequests implements HttpRequestsClass {
-  constructor() {
+  customConfigs: CustomConfigs = {
+    apiHeader: "",
+    apiKey: "",
+    sandBox: false,
+  };
+
+  constructor(customConfigs: CustomConfigs) {
+    this.customConfigs = customConfigs;
     return this;
   }
 
@@ -26,7 +34,10 @@ export default class HttpRequests implements HttpRequestsClass {
         ...headers,
         "content-type": "application/json",
       };
-      fetch(healthpayConfig.HEALTHPAY_CONFIGS.REMOTE_END_POINT, {
+      const endPoint = !!this.customConfigs.sandBox
+        ? healthpayConfig.HEALTHPAY_CONFIGS.REMOTE_END_POINT
+        : healthpayConfig.HEALTHPAY_CONFIGS.SANDBOX_END_POINT;
+      fetch(endPoint, {
         method: "POST",
         headers: fullHeaders,
         body: JSON.stringify(body),

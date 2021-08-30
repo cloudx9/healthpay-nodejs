@@ -48,7 +48,7 @@ export class Client implements HealthpayClass {
    */
   constructor(customConfigs: CustomConfigs) {
     this.customConfigs = customConfigs;
-    this.httpRequests = new HttpRequests();
+    this.httpRequests = new HttpRequests(customConfigs);
     this.mutations = getInstance(customConfigs, this._emit);
   }
 

@@ -36,7 +36,7 @@ class Client {
         this.authToken = "";
         this._clientStatus = "PENDING";
         this.customConfigs = customConfigs;
-        this.httpRequests = new http_1.default();
+        this.httpRequests = new http_1.default(customConfigs);
         this.mutations = mutations_1.getInstance(customConfigs, this._emit);
     }
     /*

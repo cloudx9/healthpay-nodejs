@@ -33,7 +33,7 @@ export class Mutations {
 
   constructor(customConfigs: CustomConfigs, _emit) {
     this.customConfigs = customConfigs;
-    this.httpRequests = new HttpRequests();
+    this.httpRequests = new HttpRequests(customConfigs);
     this._emit = _emit;
   }
 
@@ -247,7 +247,7 @@ export class Mutations {
       });
       if (response && response.data) {
         return {
-          webviewurl: response.data.userChargeWallet.iframeUrl,
+          webviewurl: response.data.topupWalletUser.iframeUrl,
         };
       } else {
         this._logWarning("Webview context generation error!");

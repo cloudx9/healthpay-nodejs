@@ -12,13 +12,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const node_fetch_1 = require("node-fetch");
 const healthpay_config_1 = require("../healthpay.config");
 class HttpRequests {
-    constructor() {
+    constructor(customConfigs) {
+        this.customConfigs = {
+            apiHeader: "",
+            apiKey: "",
+            sandBox: false,
+        };
+        this.customConfigs = customConfigs;
         return this;
     }
     request(body, headers) {
         return new Promise((resolve, reject) => {
             const fullHeaders = Object.assign(Object.assign({}, headers), { "content-type": "application/json" });
-            node_fetch_1.default(healthpay_config_1.default.HEALTHPAY_CONFIGS.REMOTE_END_POINT, {
+            const endPoint = !!this.customConfigs.sandBox
+                ? healthpay_config_1.default.HEALTHPAY_CONFIGS.REMOTE_END_POINT
+                : healthpay_config_1.default.HEALTHPAY_CONFIGS.SANDBOX_END_POINT;
+            node_fetch_1.default(endPoint, {
                 method: "POST",
                 headers: fullHeaders,
                 body: JSON.stringify(body),

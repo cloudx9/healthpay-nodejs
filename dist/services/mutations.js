@@ -22,7 +22,7 @@ class Mutations {
         };
         this.authToken = "";
         this.customConfigs = customConfigs;
-        this.httpRequests = new http_1.default();
+        this.httpRequests = new http_1.default(customConfigs);
         this._emit = _emit;
     }
     /*
@@ -226,7 +226,7 @@ class Mutations {
                 });
                 if (response && response.data) {
                     return {
-                        webviewurl: response.data.userChargeWallet.iframeUrl,
+                        webviewurl: response.data.topupWalletUser.iframeUrl,
                     };
                 }
                 else {

@@ -1,1 +1,1 @@
-{"version":3,"file":"healthpay.config.js","sourceRoot":"","sources":["../src/healthpay.config.ts"],"names":[],"mappings":";;AAAA,MAAM,iBAAiB,GAAG;IACxB,gBAAgB,EAAE,wCAAwC;CAC3D,CAAC;AAIF,kBAAe;IACb,iBAAiB;CAClB,CAAC"}
+{"version":3,"file":"healthpay.config.js","sourceRoot":"","sources":["../src/healthpay.config.ts"],"names":[],"mappings":";;AAAA,MAAM,iBAAiB,GAAG;IACxB,gBAAgB,EAAE,2CAA2C;IAC7D,iBAAiB,EAAE,wCAAwC;CAC5D,CAAC;AAIF,kBAAe;IACb,iBAAiB;CAClB,CAAC"}

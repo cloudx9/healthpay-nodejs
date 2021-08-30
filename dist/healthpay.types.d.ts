@@ -36,6 +36,7 @@ export interface CustomConfigs {
     apiKey: string;
     apiHeader: string;
     disableWarning?: boolean;
+    sandBox?: boolean;
 }
 export interface ConfirmationResult {
     phonenumber: string;

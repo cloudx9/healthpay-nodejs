@@ -1,7 +1,7 @@
 {
   "name": "healthpay-nodejs",
-  "version": "1.1.4",
-  "description": "A unicorn that says hello world",
+  "version": "1.1.8",
+  "description": "A nodejs/javascript SDK that wraps healthpay APIS",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
