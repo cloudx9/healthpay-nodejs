@@ -4,6 +4,7 @@ const HEALTHPAY_CONFIGS = {
 };
 
 export type HealthpayConfigs = typeof HEALTHPAY_CONFIGS;
+// return configs
 
 export default {
   HEALTHPAY_CONFIGS,
